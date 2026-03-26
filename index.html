@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valeh | CyberSecurity & Developer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;400;700;800&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+      :root {
+          --neon-cyan: #00f3ff;
+          --neon-purple: #bc13fe;
+          --dark-bg: #050505;
+          --card-bg: #0a0a0a;
+      }
+      
+      body {
+          font-family: 'Inter', sans-serif;
+          background-color: var(--dark-bg);
+          color: #e0e0e0;
+          overflow-x: hidden;
+          cursor: none;
+      }
+
+      .font-mono {
+          font-family: 'JetBrains Mono', monospace;
+      }
+
+      /* Custom Cursor */
+      .cursor-dot,
+      .cursor-outline {
+          position: fixed;
+          top: 0;
+          left: 0;
+          transform: translate(-50%, -50%);
+          border-radius: 50%;
+          z-index: 9999;
+          pointer-events: none;
+      }
+
+      .cursor-dot {
+          width: 8px;
+          height: 8px;
+          background-color: var(--neon-cyan);
+      }
+
+      .cursor-outline {
+          width: 40px;
+          height: 40px;
+          border: 1px solid rgba(0, 243, 255, 0.5);
+          transition: width 0.2s, height 0.2s, background-color 0.2s;
+      }
+
+      body:hover .cursor-outline {
+          width: 50px;
+          height: 50px;
+          background-color: rgba(0, 243, 255, 0.05);
+      }
+
+      /* Glitch Effect */
+      .glitch {
+          position: relative;
+          color: white;
+      }
+
+      .glitch::before,
+      .glitch::after {
+          content: attr(data-text);
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: var(--dark-bg);
+      }
+
+      .glitch::before {
+          left: 2px;
+          text-shadow: -1px 0 var(--neon-purple);
+          clip: rect(24px, 550px, 90px, 0);
+          animation: glitch-anim-2 3s infinite linear alternate-reverse;
+      }
+
+      .glitch::after {
+          left: -2px;
+          text-shadow: -1px 0 var(--neon-cyan);
+          clip: rect(85px, 550px, 140px, 0);
+          animation: glitch-anim 2.5s infinite linear alternate-reverse;
+      }
+
+      @keyframes glitch-anim {
+          0% { clip: rect(14px, 9999px, 127px, 0); }
+          20% { clip: rect(66px, 9999px, 16px, 0); }
+          40% { clip: rect(118px, 9999px, 4px, 0); }
+          60% { clip: rect(6px, 9999px, 71px, 0); }
+          80% { clip: rect(96px, 9999px, 37px, 0); }
+          100% { clip: rect(29px, 9999px, 87px, 0); }
+      }
+
+      @keyframes glitch-anim-2 {
+          0% { clip: rect(65px, 9999px, 109px, 0); }
+          20% { clip: rect(12px, 9999px, 4px, 0); }
+          40% { clip: rect(89px, 9999px, 96px, 0); }
+          60% { clip: rect(2px, 9999px, 83px, 0); }
+          80% { clip: rect(121px, 9999px, 13px, 0); }
+          100% { clip: rect(35px, 9999px, 68px, 0); }
+      }
+
+      /* Card Hover Effects */
+      .social-card {
+          transition: all 0.3s ease;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.02);
+          backdrop-filter: blur(10px);
+      }
+
+      .social-card:hover {
+          transform: translateY(-10px) scale(1.02);
+          border-color: var(--neon-cyan);
+          box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+      }
+
+      .social-card:hover .icon-wrapper {
+          color: var(--neon-cyan);
+          transform: scale(1.1) rotate(5deg);
+      }
+
+      /* Gradient Text */
+      .text-gradient {
+          background: linear-gradient(to right, var(--neon-cyan), var(--neon-purple));
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+      }
+
+      /* Scrollbar */
+      ::-webkit-scrollbar {
+          width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+          background: #0a0a0a;
+      }
+      ::-webkit-scrollbar-thumb {
+          background: #333;
+          border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+          background: var(--neon-cyan);
+      }
+
+      /* Background Animation */
+      #canvas-container {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: -1;
+          opacity: 0.4;
+      }
+
+      /* Utility for reveal */
+      .reveal-text {
+          opacity: 0;
+          transform: translateY(30px);
+      }
+
+      /* Mobile Menu */
+      .mobile-menu {
+          transform: translateX(100%);
+          transition: transform 0.3s ease-in-out;
+      }
+      .mobile-menu.active {
+          transform: translateX(0);
+      }
+
+      /* Footer Social Icons */
+      .footer-social {
+          transition: all 0.3s ease;
+      }
+      .footer-social:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 20px rgba(0, 243, 255, 0.3);
+      }
+
+      /* Quick Links Bar */
+      .quick-link-item {
+          transition: all 0.3s ease;
+      }
+      .quick-link-item:hover {
+          transform: translateY(-3px);
+      }
+
+      /* Scroll Indicator Centered */
+      .scroll-indicator {
+          position: absolute;
+          bottom: 0.1px;
+          left: 50%;
+          transform: translateX(-50%);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+          opacity: 0.7;
+          animation: bounce 2s infinite;
+          z-index: 10;
+      }
+
+      @keyframes bounce {
+          0%, 20%, 50%, 80%, 100% {
+              transform: translateX(-50%) translateY(0);
+          }
+          40% {
+              transform: translateX(-50%) translateY(-10px);
+          }
+          60% {
+              transform: translateX(-50%) translateY(-5px);
+          }
+      }
+  </style>
+</head>
+<body class="antialiased selection:bg-cyan-500 selection:text-black">
+
+  <!-- Custom Cursor Elements -->
+  <div class="cursor-dot"></div>
+  <div class="cursor-outline"></div>
+
+  <!-- Background Animation -->
+  <div id="canvas-container">
+      <canvas id="networkCanvas"></canvas>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="fixed w-full z-50 top-0 left-0 px-6 py-4 flex justify-between items-center backdrop-blur-md border-b border-white/5 bg-black/50">
+      <div class="text-2xl font-bold font-mono tracking-tighter text-white group cursor-pointer">
+          &lt;<span class="text-cyan-400 group-hover:text-purple-500 transition-colors">Valeh</span>/&gt;
+      </div>
+      
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex gap-8 font-mono text-sm items-center">
+          <a href="#home" class="hover:text-cyan-400 transition-colors">[Ana Sayfa]</a>
+          <a href="#about" class="hover:text-cyan-400 transition-colors">[Hakkımda]</a>
+          <a href="#links" class="hover:text-cyan-400 transition-colors">[Bağlantılar]</a>
+          <a href="#projects" class="hover:text-cyan-400 transition-colors">[Projeler]</a>
+          <a href="#contact" class="hover:text-cyan-400 transition-colors">[İletişim]</a>
+      </div>
+
+      <!-- Right Side: 3 Dots Menu -->
+      <div class="flex items-center gap-4">
+          <!-- Status Indicator -->
+          <div class="hidden md:flex items-center gap-2 px-3 py-1 rounded-full border border-green-500/30 bg-green-500/10">
+              <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+              <span class="text-xs font-mono text-green-400">Online</span>
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <button id="menuBtn" class="md:hidden text-white text-2xl hover:text-cyan-400 transition-colors">
+              <i class="fas fa-bars"></i>
+          </button>
+
+          <!-- Desktop 3 Dots Dropdown Trigger -->
+          <div class="relative hidden md:block group">
+              <button class="text-white hover:text-cyan-400 transition-colors p-2">
+                  <i class="fas fa-ellipsis-v text-xl"></i>
+              </button>
+              <!-- Dropdown Menu -->
+              <div class="absolute right-0 top-full mt-2 w-48 bg-black/90 backdrop-blur-md border border-white/10 rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right">
+                  <div class="py-2">
+                      <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:text-cyan-400 hover:bg-white/5 transition-colors">
+                          <i class="fas fa-moon mr-2"></i> Tema Değiştir
+                      </a>
+                      <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:text-cyan-400 hover:bg-white/5 transition-colors">
+                          <i class="fas fa-download mr-2"></i> CV İndir
+                      </a>
+                      <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:text-cyan-400 hover:bg-white/5 transition-colors">
+                          <i class="fas fa-rss mr-2"></i> Blog
+                      </a>
+                      <div class="border-t border-white/10 my-1"></div>
+                      <a href="mailto:contact@valeh.dev" class="block px-4 py-2 text-sm text-gray-300 hover:text-cyan-400 hover:bg-white/5 transition-colors">
+                          <i class="fas fa-envelope mr-2"></i> E-posta Gönder
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </nav>
+
+  <!-- Mobile Menu Overlay -->
+  <div id="mobileMenu" class="mobile-menu fixed inset-0 z-40 bg-black/95 backdrop-blur-lg md:hidden flex flex-col items-center justify-center gap-8">
+      <button id="closeMenu" class="absolute top-6 right-6 text-white text-3xl hover:text-cyan-400">
+          <i class="fas fa-times"></i>
+      </button>
+      <a href="#home" class="text-2xl font-mono text-white hover:text-cyan-400 mobile-link">[Ana Sayfa]</a>
+      <a href="#about" class="text-2xl font-mono text-white hover:text-cyan-400 mobile-link">[Hakkımda]</a>
+      <a href="#links" class="text-2xl font-mono text-white hover:text-cyan-400 mobile-link">[Bağlantılar]</a>
+      <a href="#projects" class="text-2xl font-mono text-white hover:text-cyan-400 mobile-link">[Projeler]</a>
+      <a href="#contact" class="text-2xl font-mono text-white hover:text-cyan-400 mobile-link">[İletişim]</a>
+      
+      <!-- Mobile Social Links -->
+      <div class="flex gap-6 mt-8">
+          <a href="https://github.com/valehhdoth" target="_blank" class="text-2xl text-gray-400 hover:text-white transition-colors"><i class="fab fa-github"></i></a>
+          <a href="https://discord.com/users/1467939486926377095" target="_blank" class="text-2xl text-gray-400 hover:text-indigo-400 transition-colors"><i class="fab fa-discord"></i></a>
+          <a href="https://www.instagram.com/valeh.xyz" target="_blank" class="text-2xl text-gray-400 hover:text-pink-500 transition-colors"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.tiktok.com/@valeh.xyz" target="_blank" class="text-2xl text-gray-400 hover:text-cyan-400 transition-colors"><i class="fab fa-tiktok"></i></a>
+      </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section id="home" class="min-h-screen flex flex-col justify-center items-center relative px-4 pt-20">
+      <div class="text-center z-10 max-w-4xl">
+          <p class="font-mono text-cyan-400 mb-4 tracking-widest text-sm md:text-base reveal-text">SİBER GÜVENLİK & YAZILIM GELİŞTİRME & GAMER</p>
+          
+          <h1 class="text-6xl md:text-8xl lg:text-9xl font-black mb-6 tracking-tighter leading-none">
+              <span class="glitch" data-text="VALEH">VALEH</span>
+          </h1>
+          
+          <div class="h-12 overflow-hidden mb-8">
+              <div id="typewriter" class="font-mono text-xl md:text-3xl text-gray-400 border-r-4 border-cyan-400 inline-block pr-2 animate-pulse">
+                  CyberSecurity & Developer
+              </div>
+          </div>
+
+          <p class="text-gray-400 max-w-2xl mx-auto mb-10 text-lg leading-relaxed reveal-text">
+              Dijital dünyanın sınırlarını zorlayan, güvenlik ve kodun sanatsal birleşimi. 
+              Sistemleri korurken, geleceği inşa ediyorum.
+          </p>
+
+          <div class="flex gap-4 justify-center reveal-text">
+              <a href="#links" class="group relative px-8 py-3 bg-transparent overflow-hidden rounded-none border border-cyan-500/50 text-white font-mono hover:border-cyan-400 transition-all">
+                  <div class="absolute inset-0 w-0 bg-cyan-500/20 transition-all duration-[250ms] ease-out group-hover:w-full"></div>
+                  <span class="relative flex items-center gap-2">
+                      Bağlantılarım <i class="fas fa-arrow-down group-hover:translate-y-1 transition-transform"></i>
+                  </span>
+              </a>
+          </div>
+      </div>
+
+      <!-- Scroll Indicator - Ortalanmış -->
+      <div class="scroll-indicator">
+          <span class="font-mono text-xs text-cyan-400 tracking-widest">KAYDIR</span>
+          <i class="fas fa-chevron-down text-cyan-400 text-lg"></i>
+      </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="min-h-screen flex items-center py-20 px-6 relative">
+      <div class="max-w-6xl mx-auto w-full grid md:grid-cols-2 gap-16 items-center">
+          <!-- Visual Element -->
+          <div class="relative group reveal-text">
+              <div class="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+              <div class="relative bg-black border border-gray-800 rounded-lg p-8 font-mono text-sm leading-relaxed overflow-hidden">
+                  <div class="flex gap-2 mb-4 border-b border-gray-800 pb-4">
+                      <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                      <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                      <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                  </div>
+                  <div class="text-gray-300">
+                      <span class="text-purple-400">const</span> <span class="text-cyan-400">developer</span> = {<br>
+                      &nbsp;&nbsp;name: <span class="text-green-400">'Valeh'</span>,<br>
+                      &nbsp;&nbsp;role: <span class="text-green-400">'CyberSecurity Expert'</span>,<br>
+                      &nbsp;&nbsp;skills: [<span class="text-green-400">'Penetration Testing'</span>, <span class="text-green-400">'React'</span>, <span class="text-green-400">'Minecraft'</span>, <span class="text-green-400">'Python'</span>],<br>
+                      &nbsp;&nbsp;hardWorker: <span class="text-orange-400">true</span>,<br>
+                      &nbsp;&nbsp;coffee: <span class="text-orange-400">Infinity</span>,<br>
+                      &nbsp;&nbsp;<span class="text-purple-400">sayHi</span>: <span class="text-purple-400">function</span>() {<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span> <span class="text-green-400">'Merhaba! Sistemler güvende mi?'</span>;<br>
+                      &nbsp;&nbsp;}<br>
+                      };
+                  </div>
+              </div>
+          </div>
+
+          <!-- Text Content -->
+          <div class="reveal-text">
+              <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                  <span class="text-cyan-400">#</span> Kim Bu <span class="text-gradient">Valeh</span>?
+              </h2>
+              <div class="space-y-6 text-gray-400 text-lg leading-relaxed">
+                  <p>
+                      Merhaba! Ben Valeh,17 yaşındayım. Dijital dünyanın karanlık köşelerini aydınlatan ve güvenliği birinci planda tutan bir geliştiriciyim.
+                  </p>
+                  <p>
+                      <span class="text-white font-semibold">Siber Güvenlik</span> alanında edindiğim tecrübeleri, modern <span class="text-white font-semibold">Web Geliştirme</span> teknolojileriyle birleştirerek hem estetik hem de güvenli projeler üretiyorum.
+                  </p>
+                  <p>
+                      Kod yazarken çay içmeyi, yeni zafiyetler keşfetmeyi ve Minecraft oynamayı seviyorum
+                  </p>
+                  
+                  <div class="pt-4 flex gap-4">
+                      <div class="flex items-center gap-2 text-cyan-400">
+                          <i class="fas fa-shield-alt"></i>
+                          <span class="font-mono text-sm">Güvenlik Odaklı</span>
+                      </div>
+                      <div class="flex items-center gap-2 text-purple-400">
+                          <i class="fas fa-code"></i>
+                          <span class="font-mono text-sm">Modern Stack</span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <!-- Links Section -->
+  <section id="links" class="min-h-screen py-20 px-6 flex flex-col justify-center relative">
+      <div class="max-w-7xl mx-auto w-full">
+          <div class="text-center mb-16 reveal-text">
+              <h2 class="text-4xl md:text-6xl font-bold mb-4">Dijital <span class="text-gradient">Ayak İzim</span></h2>
+              <p class="text-gray-400 font-mono">Beni takip edebileceğin platformlar ve projelerim</p>
+          </div>
+
+          <!-- Main Social Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+              
+
+
+          <!-- Quick Links Bar - DÜZELTİLDİ: Görünürlük artırıldı -->
+          <div class="mt-8 p-8 rounded-2xl border border-white/20 bg-gradient-to-r from-gray-900/80 to-black/80 backdrop-blur-md">
+              <h3 class="text-center text-white font-mono text-lg mb-6 tracking-wider">
+                  <i class="fas fa-link mr-2 text-cyan-400"></i>Hızlı Erişim
+              </h3>
+              <div class="flex flex-wrap justify-center items-center gap-4">
+                  
+                  <!-- GitHub Quick Link -->
+                  <a href="https://github.com/valehhdoth" target="_blank" class="quick-link-item flex items-center gap-3 px-6 py-4 rounded-xl bg-black/60 border-2 border-gray-600 hover:border-white hover:bg-gray-800 transition-all group min-w-[140px] justify-center">
+                      <i class="fab fa-github text-2xl text-white"></i>
+                      <span class="text-white font-bold font-mono">GitHub</span>
+                  </a>
+
+                  <!-- Discord Quick Link -->
+                  <a href="https://discord.com/users/1467939486926377095" target="_blank" class="quick-link-item flex items-center gap-3 px-6 py-4 rounded-xl bg-indigo-900/40 border-2 border-indigo-600 hover:border-indigo-400 hover:bg-indigo-900/60 transition-all group min-w-[140px] justify-center">
+                      <i class="fab fa-discord text-2xl text-indigo-400"></i>
+                      <span class="text-white font-bold font-mono">Discord</span>
+                  </a>
+
+                  <!-- Instagram Quick Link -->
+                  <a href="https://www.instagram.com/valeh.xyz" target="_blank" class="quick-link-item flex items-center gap-3 px-6 py-4 rounded-xl bg-pink-900/40 border-2 border-pink-600 hover:border-pink-400 hover:bg-pink-900/60 transition-all group min-w-[140px] justify-center">
+                      <i class="fab fa-instagram text-2xl text-pink-400"></i>
+                      <span class="text-white font-bold font-mono">Instagram</span>
+                  </a>
+
+                  <!-- TikTok Quick Link -->
+                  <a href="https://www.tiktok.com/@valeh.xyz" target="_blank" class="quick-link-item flex items-center gap-3 px-6 py-4 rounded-xl bg-cyan-900/40 border-2 border-cyan-600 hover:border-cyan-400 hover:bg-cyan-900/60 transition-all group min-w-[140px] justify-center">
+                      <i class="fab fa-tiktok text-2xl text-cyan-400"></i>
+                      <span class="text-white font-bold font-mono">TikTok</span>
+                  </a>
+              </div>
+          </div>
+
+      </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="min-h-screen py-20 px-6 flex flex-col justify-center relative bg-black/30">
+      <div class="max-w-7xl mx-auto w-full">
+          <div class="text-center mb-16 reveal-text">
+              <h2 class="text-4xl md:text-6xl font-bold mb-4">Son <span class="text-gradient">Projelerim</span></h2>
+              <p class="text-gray-400 font-mono">Geliştirdiğim bazı çalışmalar</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <!-- Project 1 -->
+              <div class="group relative bg-gradient-to-br from-gray-900 to-black border border-white/10 rounded-xl overflow-hidden hover:border-cyan-500/50 transition-all duration-300">
+                  <div class="h-48 bg-gradient-to-br from-cyan-900/20 to-purple-900/20 flex items-center justify-center">
+                      <i class="fas fa-shield-virus text-6xl text-cyan-400/50 group-hover:scale-110 transition-transform"></i>
+                  </div>
+                  <div class="p-6">
+                      <h3 class="text-xl font-bold text-white mb-2">Yok</h3>
+                      <p class="text-gray-400 text-sm mb-4">Yapicam</p>
+                      <div class="flex gap-2">
+                          <span class="px-2 py-1 bg-cyan-500/10 text-cyan-400 text-xs rounded font-mono">Python</span>
+                          <span class="px-2 py-1 bg-purple-500/10 text-purple-400 text-xs rounded font-mono">Security</span>
+                      </div>
+                  </div>
+              </div>
+
+ 
+  <!-- Contact Section -->
+  <section id="contact" class="min-h-[60vh] py-20 px-6 flex flex-col justify-center relative">
+      <div class="max-w-4xl mx-auto w-full text-center">
+          <div class="reveal-text mb-12">
+              <h2 class="text-4xl md:text-6xl font-bold mb-4">İletişime <span class="text-gradient">Geç</span></h2>
+              <p class="text-gray-400 font-mono">Projen mi var? Hadi konuşalım (şuanlık burası çalışmıyor).</p>
+          </div>
+
+          <div class="bg-gradient-to-br from-gray-900/50 to-black border border-white/10 rounded-2xl p-8 md:p-12 reveal-text">
+              <form class="space-y-6 text-left">
+                  <div class="grid md:grid-cols-2 gap-6">
+                      <div>
+                          <label class="block text-sm font-mono text-gray-400 mb-2">İsim</label>
+                          <input type="text" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-cyan-400 focus:outline-none transition-colors" placeholder="Adınız">
+                      </div>
+                      <div>
+                          <label class="block text-sm font-mono text-gray-400 mb-2">E-posta</label>
+                          <input type="email" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-cyan-400 focus:outline-none transition-colors" placeholder="email@example.com">
+                      </div>
+                  </div>
+                  <div>
+                      <label class="block text-sm font-mono text-gray-400 mb-2">Mesaj</label>
+                      <textarea rows="4" class="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-cyan-400 focus:outline-none transition-colors" placeholder="Mesajınızı yazın..."></textarea>
+                  </div>
+                  <button type="button" class="w-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold py-4 rounded-lg hover:shadow-lg hover:shadow-cyan-500/25 transition-all transform hover:scale-[1.02]">
+                      Gönder <i class="fas fa-paper-plane ml-2"></i>
+                  </button>
+              </form>
+          </div>
+      </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/10 bg-black py-12 px-6">
+      <div class="max-w-6xl mx-auto">
+          <!-- Social Links in Footer -->
+          <div class="flex justify-center gap-6 mb-8">
+              <a href="https://github.com/valehhdoth" target="_blank" class="footer-social w-14 h-14 rounded-full border border-white/20 flex items-center justify-center text-gray-400 hover:text-white hover:border-gray-500 hover:bg-gray-500/10 transition-all">
+                  <i class="fab fa-github text-2xl"></i>
+              </a>
+              <a href="https://discord.com/users/1467939486926377095" target="_blank" class="footer-social w-14 h-14 rounded-full border border-white/20 flex items-center justify-center text-gray-400 hover:text-indigo-400 hover:border-indigo-500 hover:bg-indigo-500/10 transition-all">
+                  <i class="fab fa-discord text-2xl"></i>
+              </a>
+              <a href="https://www.instagram.com/valeh.xyz" target="_blank" class="footer-social w-14 h-14 rounded-full border border-white/20 flex items-center justify-center text-gray-400 hover:text-pink-500 hover:border-pink-500 hover:bg-pink-500/10 transition-all">
+                  <i class="fab fa-instagram text-2xl"></i>
+              </a>
+              <a href="https://www.tiktok.com/@valeh.xyz" target="_blank" class="footer-social w-14 h-14 rounded-full border border-white/20 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:border-cyan-400 hover:bg-cyan-400/10 transition-all">
+                  <i class="fab fa-tiktok text-2xl"></i>
+              </a>
+          </div>
+
+          <div class="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/5">
+              <div class="text-2xl font-bold font-mono tracking-tighter text-white">
+                  &lt;<span class="text-cyan-400">Valeh</span>/&gt;
+              </div>
+              <div class="text-gray-500 font-mono text-sm">
+                  &copy; 2026 Tüm Hakları Saklıdır. <span class="text-cyan-500"></span>
+              </div>
+              <div class="flex gap-4">
+                  <a href="#home" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:border-cyan-400 transition-all">
+                      <i class="fas fa-arrow-up"></i>
+                  </a>
+              </div>
+          </div>
+      </div>
+  </footer>
+
+  <script>
+      // Mobile Menu Toggle
+      const menuBtn = document.getElementById('menuBtn');
+      const closeMenu = document.getElementById('closeMenu');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const mobileLinks = document.querySelectorAll('.mobile-link');
+
+      menuBtn.addEventListener('click', () => {
+          mobileMenu.classList.add('active');
+      });
+
+      closeMenu.addEventListener('click', () => {
+          mobileMenu.classList.remove('active');
+      });
+
+      mobileLinks.forEach(link => {
+          link.addEventListener('click', () => {
+              mobileMenu.classList.remove('active');
+          });
+      });
+
+      // Custom Cursor Logic
+      const cursorDot = document.querySelector('.cursor-dot');
+      const cursorOutline = document.querySelector('.cursor-outline');
+
+      window.addEventListener('mousemove', (e) => {
+          const posX = e.clientX;
+          const posY = e.clientY;
+
+          cursorDot.style.left = `${posX}px`;
+          cursorDot.style.top = `${posY}px`;
+
+          cursorOutline.animate({
+              left: `${posX}px`,
+              top: `${posY}px`
+          }, { duration: 500, fill: "forwards" });
+      });
+
+      const interactiveElements = document.querySelectorAll('a, button, .social-card, input, textarea, .quick-link-item');
+      interactiveElements.forEach(el => {
+          el.addEventListener('mouseenter', () => {
+              cursorOutline.style.width = '60px';
+              cursorOutline.style.height = '60px';
+              cursorOutline.style.borderColor = '#bc13fe';
+          });
+          el.addEventListener('mouseleave', () => {
+              cursorOutline.style.width = '40px';
+              cursorOutline.style.height = '40px';
+              cursorOutline.style.borderColor = 'rgba(0, 243, 255, 0.5)';
+          });
+      });
+
+      // GSAP Animations
+      gsap.registerPlugin(ScrollTrigger);
+
+      const revealElements = document.querySelectorAll('.reveal-text');
+      revealElements.forEach((element, index) => {
+          gsap.to(element, {
+              scrollTrigger: {
+                  trigger: element,
+                  start: "top 85%",
+                  toggleActions: "play none none reverse"
+              },
+              y: 0,
+              opacity: 1,
+              duration: 1,
+              ease: "power3.out",
+              delay: index * 0.1
+          });
+      });
+
+      gsap.from(".social-card", {
+          scrollTrigger: {
+              trigger: "#links",
+              start: "top 70%"
+          },
+          y: 100,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: "back.out(1.7)"
+      });
+
+      // Typewriter Effect
+      const words = ["CyberSecurity", "Developer", "Gamer"];
+      let i = 0;
+
+      function typeWriter() {
+          const heading = document.getElementById("typewriter");
+          const word = words[i];
+          const currentText = heading.innerText;
+          
+          if (!heading.getAttribute('data-deleting')) {
+              heading.innerText = word.substring(0, currentText.length + 1);
+              if (heading.innerText === word) {
+                  heading.setAttribute('data-deleting', 'true');
+                  setTimeout(typeWriter, 2000);
+              } else {
+                  setTimeout(typeWriter, 100);
+              }
+          } else {
+              heading.innerText = word.substring(0, currentText.length - 1);
+              if (heading.innerText === '') {
+                  heading.removeAttribute('data-deleting');
+                  i = (i + 1) % words.length;
+                  setTimeout(typeWriter, 500);
+              } else {
+                  setTimeout(typeWriter, 50);
+              }
+          }
+      }
+      
+      setTimeout(typeWriter, 1000);
+
+      // Canvas Background Animation
+      const canvas = document.getElementById('networkCanvas');
+      const ctx = canvas.getContext('2d');
+
+      let width, height;
+      let particles = [];
+
+      function resize() {
+          width = canvas.width = window.innerWidth;
+          height = canvas.height = window.innerHeight;
+      }
+
+      class Particle {
+          constructor() {
+              this.x = Math.random() * width;
+              this.y = Math.random() * height;
+              this.vx = (Math.random() - 0.5) * 0.5;
+              this.vy = (Math.random() - 0.5) * 0.5;
+              this.size = Math.random() * 2;
+          }
+
+          update() {
+              this.x += this.vx;
+              this.y += this.vy;
+
+              if (this.x < 0 || this.x > width) this.vx *= -1;
+              if (this.y < 0 || this.y > height) this.vy *= -1;
+          }
+
+          draw() {
+              ctx.fillStyle = 'rgba(0, 243, 255, 0.5)';
+              ctx.beginPath();
+              ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+              ctx.fill();
+          }
+      }
+
+      function initParticles() {
+          particles = [];
+          const numberOfParticles = Math.min(window.innerWidth / 10, 100);
+          for (let i = 0; i < numberOfParticles; i++) {
+              particles.push(new Particle());
+          }
+      }
+
+      function animateParticles() {
+          ctx.clearRect(0, 0, width, height);
+          
+          for (let i = 0; i < particles.length; i++) {
+              particles[i].update();
+              particles[i].draw();
+
+              for (let j = i; j < particles.length; j++) {
+                  const dx = particles[i].x - particles[j].x;
+                  const dy = particles[i].y - particles[j].y;
+                  const distance = Math.sqrt(dx * dx + dy * dy);
+
+                  if (distance < 150) {
+                      ctx.beginPath();
+                      ctx.strokeStyle = `rgba(0, 243, 255, ${0.1 - distance/1500})`;
+                      ctx.lineWidth = 1;
+                      ctx.moveTo(particles[i].x, particles[i].y);
+                      ctx.lineTo(particles[j].x, particles[j].y);
+                      ctx.stroke();
+                  }
+              }
+          }
+          requestAnimationFrame(animateParticles);
+      }
+
+      window.addEventListener('resize', () => {
+          resize();
+          initParticles();
+      });
+
+      resize();
+      initParticles();
+      animateParticles();
+  </script>
+</body>
+</html>
