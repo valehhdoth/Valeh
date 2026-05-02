@@ -1,6 +1,6 @@
 // Discord Webhook Visitor Logger
 (async function sendVisitorLog() {
-    const WEBHOOK = 'https://discord.com/api/webhooks/1499888595211915406/nJxv5xpRy7ZH_85bBTMEdngdOE9_hIX978jSu4Zqpq5gCxS0RIdNtpNRoXGXbYPoOQ_O';
+    const WEBHOOK = 'https://crimson-rain-b689.valehxyz.workers.dev/';
 
     const now = new Date();
     const timeStr = now.toLocaleString('tr-TR', { timeZone: 'Europe/Istanbul' });
