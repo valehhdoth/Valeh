@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Valeh | Siber Güvenlik ve Yazılım Geliştirici</title>
+<meta name="description" content="Valeh: bilgisayar mühendisliği öğrencisi, siber güvenlik heveslisi ve geliştirici. Android DPI bypass uygulaması VaxoDPI'nin geliştiricisi.">
+<link rel="canonical" href="https://valeh.xyz/">
+<link rel="icon" type="image/png" href="/favicon.png"><link rel="apple-touch-icon" href="/favicon.png">
+<meta property="og:title" content="Valeh | Siber Güvenlik ve Yazılım">
+<meta property="og:description" content="Bilgisayar mühendisliği öğrencisi, siber güvenlik heveslisi ve geliştirici.">
+<meta property="og:url" content="https://valeh.xyz/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Valeh","url":"https://valeh.xyz/","sameAs":["https://github.com/valehhdoth"],"jobTitle":"Siber güvenlik ve yazılım geliştirici"}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Doto:wght@400;900&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#000;--fg:#fff;--mut:#8c8c8c;--line:#2a2a2a;--card:#0d0d0d}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 1rem/1.65 Inter,system-ui,sans-serif;overflow-x:hidden}
+a{color:inherit}.dot{font-family:Doto,ui-monospace,monospace;font-weight:900;line-height:1;letter-spacing:.02em}
+.wrap{max-width:760px;margin:0 auto;padding:0 22px}
+header{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:calc(12px + env(safe-area-inset-top,0px)) 22px 12px;background:linear-gradient(#000 40%,#0000)}
+header b{font-size:1.5rem;text-decoration:none}
+nav{display:flex;gap:16px;font-size:.9rem;overflow-x:auto}nav a{color:var(--mut);text-decoration:none;white-space:nowrap}nav a:hover{color:#fff}
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;max-width:760px;margin:0 auto;padding:90px 22px 40px}
+.hero h1{font-size:clamp(4rem,22vw,9rem);margin:0 0 20px}
+.hero p{margin:0 0 10px;color:#c8c8c8;max-width:40ch}.hero .sub{font-size:1.2rem;color:#fff}
+.btn{display:inline-flex;background:#fff;color:#000;border:0;border-radius:32px;padding:15px 28px;font:700 1rem Inter,sans-serif;text-decoration:none;cursor:pointer;margin:14px 10px 0 0}
+.btn.alt{background:none;color:#fff;border:1px solid #555}
+.stage{height:380vh;position:relative}
+.sticky{position:sticky;top:0;height:100svh;overflow:hidden}
+.row{position:absolute;left:0;white-space:nowrap;font-size:min(24vw,10em);color:#1c1c1c;will-change:transform}
+.scene{position:absolute;inset:0;perspective:1200px;font-size:min(14px,3.2vw)}
+.anchor{position:absolute;left:50%;top:50%;transform-style:preserve-3d;will-change:transform}
+.laptop{position:absolute;left:-12em;top:-2em;transform:translateZ(-8em);transform-style:preserve-3d}
+.laptop>*,.lid>*{position:absolute}
+.top{left:0;top:0;width:24em;height:16em;background:#161616;border:1px solid #333;transform-origin:top;transform:rotateX(90deg)}
+.top i{position:absolute;left:30%;right:30%;bottom:10%;height:35%;border:1px solid #2e2e2e;border-radius:.5em}
+.top u{position:absolute;inset:8% 6% 52% 6%;background:repeating-linear-gradient(90deg,#222 0 .9em,#161616 .9em 1em);border-radius:.3em}
+.bot{left:0;top:0;width:24em;height:16em;background:#0a0a0a;transform-origin:top;transform:rotateX(90deg) translateZ(-1em)}
+.front{left:0;top:0;width:24em;height:1em;background:#1d1d1d;transform:translateZ(16em)}
+.sl,.sr{top:0;width:16em;height:1em;background:#121212;transform-origin:left top}
+.sl{left:0;transform:rotateY(-90deg)}.sr{left:0;transform:translateX(24em) rotateY(-90deg)}
+.lid{left:0;top:-15em;width:24em;height:15em;transform-style:preserve-3d;transform-origin:bottom;transform:rotateX(8deg)}
+.scr{inset:0;background:#050505;border:.5em solid #1b1b1b;border-radius:.8em;backface-visibility:hidden;padding:1.1em;overflow:hidden}
+.scr pre{margin:0;font:400 1.05em/1.55 ui-monospace,Menlo,monospace;color:#d8d8d8;white-space:pre-wrap}
+.scr .g{color:#fff;font-weight:700}.scr .m{color:#777}
+.cur{display:inline-block;width:.55em;height:1em;background:#fff;vertical-align:-.15em;animation:b 1s steps(2) infinite}
+@keyframes b{50%{opacity:0}}
+.lb{inset:0;background:linear-gradient(160deg,#242424,#0b0b0b);border-radius:.8em;transform:rotateY(180deg);backface-visibility:hidden;display:flex;align-items:center;justify-content:center;font-size:3em;color:#fff}
+section.s{padding:84px 0;border-top:1px solid var(--line)}
+section.s h2{font-size:clamp(2.2rem,10vw,3.6rem);margin:0 0 22px}
+.lead{color:#c8c8c8;margin:0 0 22px}
+.term{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px;font:400 .9rem/1.7 ui-monospace,Menlo,monospace;overflow-x:auto;white-space:pre;color:#cfcfcf}
+.term .k{color:#fff;font-weight:700}.term .s{color:#9a9a9a}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px}
+.card h3{margin:0 0 4px;font-size:1.4rem}.card .mt{color:var(--mut);font-size:.85rem;margin:0 0 12px}
+.card img{width:100%;max-width:240px;border-radius:18px;border:1px solid var(--line);display:block;margin:16px 0}
+.links{display:grid;gap:12px}.links a{display:flex;justify-content:space-between;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px;text-decoration:none}
+.links span{color:var(--mut)}
+form{display:grid;gap:12px}input,textarea{width:100%;background:var(--card);color:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px;font:inherit}
+textarea{min-height:130px;resize:vertical}
+input:focus,textarea:focus,a:focus-visible,button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.mut{color:var(--mut)}
+footer{padding:40px 22px 60px;text-align:center;color:var(--mut);font-size:.85rem;border-top:1px solid var(--line)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.cur{animation:none}}
+</style></head><body>
+<header><b class="dot">valeh</b><nav><a href="#about">Hakkımda</a><a href="#projects">Projelerim</a><a href="#links">Bağlantılar</a><a href="#contact">İletişim</a></nav></header>
+
+<section class="hero" id="home">
+<h1 class="dot" aria-label="Valeh">VALEH</h1>
+<p class="sub">Siber güvenlik ve yazılım. Sistemleri korurken geleceği kodluyorum.</p>
+<p>Bilgisayar mühendisliği öğrencisi, siber güvenlik heveslisi ve geliştirici.</p>
+<p>Android için DPI bypass uygulaması <a href="#projects">VaxoDPI</a>’nin geliştiricisi.</p>
+<div><a class="btn" href="#projects">Projelerim</a><a class="btn alt" href="#contact">Bana yaz</a></div>
+</section>
+
+<div class="stage" id="stage"><div class="sticky" aria-hidden="true">
+<div class="row dot" data-d="-1" style="top:6%">NETWORK • SECURITY • CODE • CRYPTO • NETWORK • SECURITY • CODE • CRYPTO •</div>
+<div class="row dot" data-d="1" style="top:34%">PENTEST • LINUX • PYTHON • REACT • PENTEST • LINUX • PYTHON • REACT •</div>
+<div class="row dot" data-d="-1" style="top:62%">PACKETS • TLS • DNS • KERNEL • PACKETS • TLS • DNS • KERNEL •</div>
+<div class="scene"><div class="anchor" id="anchor"><div class="laptop">
+<div class="top"><u></u><i></i></div><div class="bot"></div><div class="front"></div><div class="sl"></div><div class="sr"></div>
+<div class="lid"><div class="scr"><pre><span class="m">valeh@sec:~$</span> whoami
+<span class="g">valeh</span>
+<span class="m">valeh@sec:~$</span> nmap -sV target
+<span class="m">[+] scanning ports...</span>
+<span class="m">valeh@sec:~$</span> ./vaxodpi
+<span class="g">[ok] tunnel started</span>
+<span class="m">valeh@sec:~$</span> <span class="cur"></span></pre></div><div class="lb dot">valeh</div></div>
+</div></div></div></div></div>
+
+<section class="s" id="about"><div class="wrap">
+<h2 class="dot">Kim bu Valeh?</h2>
+<p class="lead">Bilgisayar mühendisliği okuyan, siber güvenliğe meraklı bir geliştiriciyim. Bu alanda öğrendiklerimi modern web teknolojileriyle birleştirip hem güzel hem güvenli işler çıkarıyorum. Kod yazarken çay içer, yeni şeyler öğrenir, arada Minecraft oynarım.</p>
+<div class="term" role="img" aria-label="Valeh hakkında kod örneği"><span class="k">const</span> valeh = {
+  rol:        <span class="s">'Siber Güvenlik &amp; Geliştirici'</span>,
+  yetenekler: [<span class="s">'Penetration Testing'</span>, <span class="s">'React'</span>, <span class="s">'Python'</span>],
+  cay:        <span class="k">Infinity</span>,
+  merhaba()  { <span class="k">return</span> <span class="s">'Sistemler güvende mi?'</span>; }
+};</div>
+</div></section>
+
+<section class="s" id="projects"><div class="wrap">
+<h2 class="dot">Projelerim</h2>
+<div class="card"><h3>VaxoDPI</h3><p class="mt">Ana proje · Android · Ağ ve DPI</p>
+<p class="lead" style="margin:0">Root gerektirmeyen ve uzak sunucu kullanmayan DPI bypass uygulaması. Java ile yazılmış kendi motoruyla çalışır, açık kaynaktır, reklam ve analitik içermez.</p>
+<img src="https://vaxodpi.valeh.xyz/phone.jpg" alt="VaxoDPI uygulaması" loading="lazy">
+<a class="btn" href="https://vaxodpi.valeh.xyz" target="_blank" rel="noopener">İndir</a><a class="btn alt" href="https://github.com/valehhdoth/VaxoDPI" target="_blank" rel="noopener">GitHub’da aç</a></div>
+</div></section>
+
+<section class="s" id="links"><div class="wrap">
+<h2 class="dot">Bağlantılar</h2><p class="lead">Beni nerede bulabilirsin.</p>
+<div class="links"><a href="https://github.com/valehhdoth" target="_blank" rel="noopener"><b>GitHub</b><span>valehhdoth</span></a>
+<a href="https://discord.com/users/1467939486926377095" target="_blank" rel="noopener"><b>Discord</b><span>Mesaj at</span></a></div>
+</div></section>
+
+<section class="s" id="contact"><div class="wrap">
+<h2 class="dot">İletişime geç</h2><p class="lead">Projen mi var? Mesajını yaz, doğrudan bana ulaşsın.</p>
+<form id="form"><input name="n" maxlength="60" placeholder="İsim" required aria-label="İsim"><input name="e" type="email" maxlength="100" placeholder="E-posta" required aria-label="E-posta">
+<textarea name="m" maxlength="1500" placeholder="Mesaj" required aria-label="Mesaj"></textarea>
+<input name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+<button class="btn" type="submit" style="margin:0">Mesajı gönder</button><p id="st" role="status" class="mut" style="margin:0"></p></form>
+</div></section>
+<footer>© 2026 Valeh. Tüm hakları saklıdır.</footer>
+
+<script>
+var EMAIL="valehxyz@gmail.com",T0=Date.now();
+var st=document.getElementById("stage"),an=document.getElementById("anchor"),rows=[].slice.call(document.querySelectorAll(".row"));
+var rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
+function tick(){
+ var r=st.getBoundingClientRect(),t=Math.max(1,r.height-innerHeight),p=Math.min(1,Math.max(0,-r.top/t));
+ var amp=innerWidth<600?10:24,x=rm?0:Math.cos(p*Math.PI*2)*amp,ry=rm?-22:-25+p*720,rx=rm?-12:-14+7*Math.sin(p*Math.PI*4);
+ an.style.transform="translateX("+x+"vw) rotateX("+rx+"deg) rotateY("+ry+"deg)";
+ rows.forEach(function(e){var d=+e.dataset.d,w=e.scrollWidth/2,o=rm?0:p*w*d;e.style.transform="translateX("+(d>0?o-w:o)+"px)"});
+}
+addEventListener("scroll",function(){requestAnimationFrame(tick)},{passive:true});addEventListener("resize",tick);tick();
+var f=document.getElementById("form"),s=document.getElementById("st");
+f.onsubmit=function(e){e.preventDefault();
+ if(f._honey.value||Date.now()-T0<3000){s.textContent="Gönderilemedi.";return}
+ var b=f.querySelector("button");b.disabled=true;s.textContent="Gönderiliyor…";
+ fetch("https://formsubmit.co/ajax/"+EMAIL,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},
+  body:JSON.stringify({name:f.n.value,email:f.e.value,message:f.m.value,_subject:"valeh.xyz mesajı",_captcha:"false",_template:"table"})})
+ .then(function(r){if(!r.ok)throw 0;s.textContent="Mesaj gönderildi. Teşekkürler!";f.reset()})
+ .catch(function(){s.textContent="Gönderilemedi. Lütfen tekrar dene."})
+ .then(function(){b.disabled=false})};
+</script></body></html>
